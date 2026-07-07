@@ -1,9 +1,13 @@
 import { Tabs } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 
+import { useAuth } from '@/context/AuthContext';
 import { colors, fonts } from '@/theme';
 
 export default function TabLayout() {
+  const { profile, loading } = useAuth();
+  const isDJ = profile?.role === 'dj';
+
   return (
     <Tabs
       screenOptions={{
