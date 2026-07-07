@@ -1,14 +1,15 @@
 {
   "expo": {
-    "name": "DemoDeck",
-    "slug": "DemoDeck",
+    "name": "The Office",
+    "slug": "the-office",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "demodeck",
-    "userInterfaceStyle": "automatic",
+    "scheme": "theoffice",
+    "userInterfaceStyle": "dark",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.demodeck.app"
     },
     "android": {
       "adaptiveIcon": {
@@ -26,12 +27,19 @@
     },
     "plugins": [
       "expo-router",
+      "expo-av",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow The Office to access your photos for cover art."
+        }
+      ],
       [
         "expo-splash-screen",
         {
           "image": "./assets/images/splash-icon.png",
           "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "backgroundColor": "#000000"
         }
       ]
     ],
