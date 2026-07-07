@@ -5,6 +5,7 @@ export interface UserProfile {
   displayName: string;
   bio: string;
   avatarUrl: string;
+  role?: 'dj' | 'raver';
   createdAt: Timestamp;
 }
 

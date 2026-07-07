@@ -23,6 +23,7 @@ export default function SignUpScreen() {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [displayName, setDisplayName] = useState('');
+  const [role, setRole] = useState<'dj' | 'raver'>('dj');
   const [loading, setLoading] = useState(false);
 
   const handleSignUp = async () => {
@@ -36,7 +37,7 @@ export default function SignUpScreen() {
     }
     setLoading(true);
     try {
-      await signUp(email.trim(), password, username.trim(), displayName.trim());
+      await signUp(email.trim(), password, username.trim(), displayName.trim(), role);
       router.replace('/(tabs)');
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Sign up failed';
@@ -54,7 +55,7 @@ export default function SignUpScreen() {
         <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps="handled">
           <View style={styles.header}>
             <Text style={styles.logo}>JOIN DECK</Text>
-            <Text style={styles.tagline}>Upload demos. Climb the chart.</Text>
+            <Text style={styles.tagline}>Choose your role and join the scene.</Text>
           </View>
 
           <View style={styles.form}>
@@ -86,6 +87,25 @@ export default function SignUpScreen() {
               secureTextEntry
               placeholder="Min 6 characters"
             />
+
+            <View style={styles.roleSection}>
+              <Text style={styles.roleLabel}>I want to sign up as</Text>
+              <View style={styles.roleOptions}>
+                <Pressable
+                  style={[styles.roleOption, role === 'dj' && styles.roleOptionActive]}
+                  onPress={() => setRole('dj')}>
+                  <Text style={[styles.roleText, role === 'dj' && styles.roleTextActive]}>DJ</Text>
+                  <Text style={styles.roleHint}>Can upload and share demos</Text>
+                </Pressable>
+                <Pressable
+                  style={[styles.roleOption, role === 'raver' && styles.roleOptionActive]}
+                  onPress={() => setRole('raver')}>
+                  <Text style={[styles.roleText, role === 'raver' && styles.roleTextActive]}>Raver</Text>
+                  <Text style={styles.roleHint}>Can discover and follow the scene</Text>
+                </Pressable>
+              </View>
+            </View>
+
             <Button title="Create Account" onPress={handleSignUp} loading={loading} />
           </View>
 
@@ -134,6 +154,42 @@ const styles = StyleSheet.create({
   },
   form: {
     gap: spacing.md,
+  },
+  roleSection: {
+    gap: spacing.sm,
+  },
+  roleLabel: {
+    fontFamily: fonts.sansMedium,
+    fontSize: 14,
+    color: colors.text,
+  },
+  roleOptions: {
+    gap: spacing.sm,
+  },
+  roleOption: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 12,
+    padding: spacing.md,
+    backgroundColor: colors.surface,
+  },
+  roleOptionActive: {
+    borderColor: colors.accent,
+    backgroundColor: colors.accent + '14',
+  },
+  roleText: {
+    fontFamily: fonts.sansBold,
+    fontSize: 16,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  roleTextActive: {
+    color: colors.accent,
+  },
+  roleHint: {
+    fontFamily: fonts.sans,
+    fontSize: 13,
+    color: colors.textSecondary,
   },
   footer: {
     flexDirection: 'row',

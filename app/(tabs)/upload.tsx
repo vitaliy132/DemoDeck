@@ -20,7 +20,8 @@ import { colors, fonts, radius, spacing } from '@/theme';
 const GENRES = ['House', 'Techno', 'DnB', 'Dubstep', 'Trance', 'Hip-Hop', 'Other'];
 
 export default function UploadScreen() {
-  const { user } = useAuth();
+  const { user, profile } = useAuth();
+  const isDJ = profile?.role === 'dj';
   const [title, setTitle] = useState('');
   const [genre, setGenre] = useState(GENRES[0]);
   const [audioFile, setAudioFile] = useState<{ uri: string; name: string; durationSec: number } | null>(null);
@@ -67,6 +68,11 @@ export default function UploadScreen() {
   };
 
   const handlePublish = async () => {
+    if (!isDJ) {
+      Alert.alert('Access denied', 'Only DJs can publish demos.');
+      return;
+    }
+
     if (!user || !audioFile || !title.trim()) {
       Alert.alert('Missing info', 'Select an audio file and enter a title.');
       return;
@@ -109,48 +115,59 @@ export default function UploadScreen() {
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       <Text style={styles.heading}>NEW DEMO</Text>
 
-      <Button
-        title={audioFile ? 'Change Audio File' : 'Select Audio File'}
-        variant="secondary"
-        onPress={pickAudio}
-      />
+      {isDJ ? (
+        <>
+          <Button
+            title={audioFile ? 'Change Audio File' : 'Select Audio File'}
+            variant="secondary"
+            onPress={pickAudio}
+          />
 
-      {audioFile ? (
-        <View style={styles.fileInfo}>
-          <Text style={styles.fileName} numberOfLines={1}>{audioFile.name}</Text>
-          <Text style={styles.fileMeta}>{formatDuration(audioFile.durationSec)}</Text>
+          {audioFile ? (
+            <View style={styles.fileInfo}>
+              <Text style={styles.fileName} numberOfLines={1}>{audioFile.name}</Text>
+              <Text style={styles.fileMeta}>{formatDuration(audioFile.durationSec)}</Text>
+            </View>
+          ) : null}
+
+          <Input label="Title" value={title} onChangeText={setTitle} placeholder="Track title" />
+
+          <View style={styles.genreSection}>
+            <Text style={styles.genreLabel}>GENRE</Text>
+            <View style={styles.genreGrid}>
+              {GENRES.map((g) => (
+                <Text
+                  key={g}
+                  onPress={() => setGenre(g)}
+                  style={[styles.genreChip, genre === g && styles.genreChipActive]}>
+                  {g}
+                </Text>
+              ))}
+            </View>
+          </View>
+
+          <Button
+            title={coverUri ? 'Change Cover Art' : 'Add Cover Art (Optional)'}
+            variant="ghost"
+            onPress={pickCover}
+          />
+
+          {uploading ? (
+            <View style={styles.progressTrack}>
+              <View style={[styles.progressBar, { width: `${progress}%` }]} />
+            </View>
+          ) : null}
+
+          <Button title="Publish Demo" onPress={handlePublish} loading={uploading} disabled={!audioFile} />
+        </>
+      ) : (
+        <View style={styles.notice}>
+          <Text style={styles.noticeTitle}>DJ access only</Text>
+          <Text style={styles.noticeText}>
+            Only DJs can publish demos. Create a DJ account to share your tracks with the community.
+          </Text>
         </View>
-      ) : null}
-
-      <Input label="Title" value={title} onChangeText={setTitle} placeholder="Track title" />
-
-      <View style={styles.genreSection}>
-        <Text style={styles.genreLabel}>GENRE</Text>
-        <View style={styles.genreGrid}>
-          {GENRES.map((g) => (
-            <Text
-              key={g}
-              onPress={() => setGenre(g)}
-              style={[styles.genreChip, genre === g && styles.genreChipActive]}>
-              {g}
-            </Text>
-          ))}
-        </View>
-      </View>
-
-      <Button
-        title={coverUri ? 'Change Cover Art' : 'Add Cover Art (Optional)'}
-        variant="ghost"
-        onPress={pickCover}
-      />
-
-      {uploading ? (
-        <View style={styles.progressTrack}>
-          <View style={[styles.progressBar, { width: `${progress}%` }]} />
-        </View>
-      ) : null}
-
-      <Button title="Publish Demo" onPress={handlePublish} loading={uploading} disabled={!audioFile} />
+      )}
     </ScrollView>
   );
 }
@@ -227,5 +244,24 @@ const styles = StyleSheet.create({
   progressBar: {
     height: '100%',
     backgroundColor: colors.accent,
+  },
+  notice: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: radius.sm,
+    padding: spacing.md,
+    gap: spacing.sm,
+  },
+  noticeTitle: {
+    fontFamily: fonts.sansBold,
+    fontSize: 16,
+    color: colors.text,
+  },
+  noticeText: {
+    fontFamily: fonts.sans,
+    fontSize: 14,
+    color: colors.textSecondary,
+    lineHeight: 20,
   },
 });

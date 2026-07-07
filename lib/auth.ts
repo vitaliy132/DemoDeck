@@ -13,7 +13,8 @@ export async function signUp(
   email: string,
   password: string,
   username: string,
-  displayName: string
+  displayName: string,
+  role: 'dj' | 'raver'
 ): Promise<User> {
   const credential = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(credential.user, { displayName });
@@ -23,6 +24,7 @@ export async function signUp(
     displayName,
     bio: '',
     avatarUrl: '',
+    role,
     createdAt: serverTimestamp(),
   });
 

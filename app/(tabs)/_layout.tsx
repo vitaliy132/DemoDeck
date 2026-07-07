@@ -39,15 +39,17 @@ export default function TabLayout() {
           ),
         }}
       />
-      <Tabs.Screen
-        name="upload"
-        options={{
-          title: 'UPLOAD',
-          tabBarIcon: ({ color }) => (
-            <SymbolView name={{ ios: 'plus.square', android: 'add_box', web: 'add_box' }} tintColor={color} size={22} />
-          ),
-        }}
-      />
+      {!loading && isDJ ? (
+        <Tabs.Screen
+          name="upload"
+          options={{
+            title: 'UPLOAD',
+            tabBarIcon: ({ color }) => (
+              <SymbolView name={{ ios: 'plus.square', android: 'add_box', web: 'add_box' }} tintColor={color} size={22} />
+            ),
+          }}
+        />
+      ) : null}
       <Tabs.Screen
         name="profile"
         options={{
