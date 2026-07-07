@@ -1,9 +1,9 @@
 import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signOut as firebaseSignOut,
-  updateProfile,
-  User,
+    createUserWithEmailAndPassword,
+    signOut as firebaseSignOut,
+    signInWithEmailAndPassword,
+    updateProfile,
+    User,
 } from 'firebase/auth';
 import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
 
