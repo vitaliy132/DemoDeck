@@ -54,7 +54,7 @@ export default function SignUpScreen() {
         style={styles.flex}>
         <ScrollView contentContainerStyle={styles.inner} keyboardShouldPersistTaps="handled">
           <View style={styles.header}>
-            <Text style={styles.logo}>JOIN DECK</Text>
+            <Text style={styles.logo}>JOIN THE OFFICE</Text>
             <Text style={styles.tagline}>Choose your role and join the scene.</Text>
           </View>
 
