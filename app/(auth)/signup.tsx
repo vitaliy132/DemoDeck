@@ -94,7 +94,7 @@ export default function SignUpScreen() {
                 <Pressable
                   style={[styles.roleOption, role === 'dj' && styles.roleOptionActive]}
                   onPress={() => setRole('dj')}>
-                  <Text style={[styles.roleText, role === 'dj' && styles.roleTextActive]}>DJ</Text>
+                  <Text style={[styles.roleText, role === 'dj' && styles.roleTextActive]}>Artist</Text>
                   <Text style={styles.roleHint}>Can upload and share demos</Text>
                 </Pressable>
                 <Pressable
