@@ -1,5 +1,5 @@
-import { SymbolView } from 'expo-symbols';
 import { Tabs } from 'expo-router';
+import { SymbolView } from 'expo-symbols';
 
 import { colors, fonts } from '@/theme';
 
