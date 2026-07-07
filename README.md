@@ -83,6 +83,17 @@ service firebase.storage {
 cp .env.example .env
 ```
 
+## Deploy to Vercel
+
+1. Push this repo to GitHub.
+2. Go to [Vercel](https://vercel.com) and create a new project from the repo.
+3. Use the default settings, then set:
+   - Build Command: `npm run build:web`
+   - Output Directory: `web-build`
+4. Deploy.
+
+After the first deploy, Vercel gives you a shareable URL.
+
 ## Run the App
 
 ```bash
